@@ -3,7 +3,6 @@ ingress-nginx:
     service:
       externalTrafficPolicy: "Local"
       annotations:
-        {{- if .Values.cloudProvider | eq "aws" }}
         service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
         service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: true
         service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
@@ -11,8 +10,3 @@ ingress-nginx:
         service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
         service.beta.kubernetes.io/aws-load-balancer-ssl-ports: https
         service.beta.kubernetes.io/aws-load-balancer-extra-security-groups: sg-0abcd1234efgh5678
-        {{- else if .Values.cloudProvider | eq "azure" }}
-        service.beta.kubernetes.io/azure-load-balancer-resource-group: <your-resource-group>
-        service.beta.kubernetes.io/azure-load-balancer-internal: "true" # Set to "false" for public load balancer
-        service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: "/healthz"
-        {{- end }}
