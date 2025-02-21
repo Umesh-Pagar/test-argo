@@ -18,6 +18,25 @@ datadogAgent:
   site: "datadoghq.com"
   namespace: "datadog"
 
+# External Secrets Operator
+externalSecrets:
+  enable: false
+  namespace: "external-secrets"
+  serviceAccountName: "external-secrets-sa"
+  serviceAccountNamespace: "external-secrets"
+  clientId: "f3e52f0b-8dea-4361-a36e-a53450701795"
+  tenantId: "45d0c08e-3ba6-4272-9547-d08be59f03fc"
+  keyVaultUrl: "https://kv-tech-mobile-dev.vault.azure.net/"
+  secrets:
+  - name: "secret1"
+  - name: "db-password"
+
+# Cluster Autoscaler Values
+clusterAutoscaler:
+  enable: true
+  serviceAccountName:
+  namespace: "cluster-autoscaler"
+
 # nginx Values
 ingressNginx:
   enable: true  
@@ -28,3 +47,9 @@ ingressNginx:
     service:
       targetPorts:
         http: 80
+
+# Metrics Server Values
+metricsServer:
+  enable: true
+  targetRevision: 3.8.2
+  namespace: "kube-system"
