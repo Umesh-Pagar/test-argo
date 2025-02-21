@@ -33,7 +33,7 @@ externalSecrets:
 
 # Cluster Autoscaler Values
 clusterAutoscaler:
-  enable: true
+  enable: false
   serviceAccountName:
   namespace: "cluster-autoscaler"
 
@@ -50,6 +50,6 @@ ingressNginx:
 
 # Metrics Server Values
 metricsServer:
-  enable: true
+  enable: false
   targetRevision: 3.8.2
   namespace: "kube-system"
