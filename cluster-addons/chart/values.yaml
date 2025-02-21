@@ -20,7 +20,7 @@ datadogAgent:
 
 # External Secrets Operator
 externalSecrets:
-  enable: false
+  enable: true
   namespace: "external-secrets"
   serviceAccountName: "external-secrets-sa"
   serviceAccountNamespace: "external-secrets"
