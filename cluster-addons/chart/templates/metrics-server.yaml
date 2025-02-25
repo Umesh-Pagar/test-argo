@@ -4,8 +4,6 @@ kind: ApplicationSet
 metadata:
   name: metrics-server-apps-{{ .Values.env }}
   namespace: {{ .Values.namespace }}
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
