@@ -28,7 +28,7 @@ externalSecrets:
   # tenantId: "23e3a31f-e59d-4012-89a8-5e58b8eef10e"
   # keyVaultUrl: "https://kv-tech-mobile-dev-01.vault.azure.net/"
   secrets:
-  - name: "datadog-api-key"
+  - name: "test-secret"
 
 # Cluster Autoscaler Values
 clusterAutoscaler:
