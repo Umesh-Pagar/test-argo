@@ -22,7 +22,7 @@ externalSecrets:
   namespace: "external-secrets"
   serviceAccountName: "external-secrets-sa"
   serviceAccountNamespace: "external-secrets"
-  roleArn: "arn:aws:iam::123456789012:role/external-secrets-role"
+  roleArn: "arn:aws:iam::891377055235:role/external-secrets-role"
   region: "us-east-1"
   # clientId: "28fc9472-a868-41f5-8e8f-8852eb42ee9d"
   # tenantId: "23e3a31f-e59d-4012-89a8-5e58b8eef10e"
