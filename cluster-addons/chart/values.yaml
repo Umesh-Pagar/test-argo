@@ -27,7 +27,6 @@ externalSecrets:
   keyVaultUrl: "https://kv-tech-mobile-dev-01.vault.azure.net/"
   secrets:
   - name: "test-secret"
-  - name
 
 # Cluster Autoscaler Values
 clusterAutoscaler:
