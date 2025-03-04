@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: external-secrets-config-{{ .Values.env }}
+  name: eso-config-{{ .Values.env }}
   namespace: {{ .Values.namespace }}
 spec:
   goTemplate: true
@@ -30,17 +30,13 @@ spec:
             clientId: {{ $.Values.externalSecrets.clientId }}
             tenantId: {{ $.Values.externalSecrets.tenantId }}
             keyVaultUrl: {{ $.Values.externalSecrets.keyVaultUrl }}
+            secrets: {{ toJson $.Values.externalSecrets.secrets }}
       destination:
         server: '{{`{{.url}}`}}'
         namespace: {{ $.Values.externalSecrets.namespace }}
       syncPolicy:
         automated:
           prune: true
-        syncOptions:
-        - CreateNamespace=true
-        # Add dependency to ensure this is only deployed after the operator
-        dependsOn:
-        - name: '{{`{{.cluster}}`}}-external-secrets'
       retry:
         limit: 1
         backoff:

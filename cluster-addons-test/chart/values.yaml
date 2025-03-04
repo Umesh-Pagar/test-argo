@@ -1,0 +1,57 @@
+# Global Values
+repoUrl: "https://github.com/Umesh-Pagar/test-argo.git"
+targetRevision: HEAD
+region: ""
+account: ""
+env: "dev"
+namespace: "argocd"
+clusters:
+  - name: "in-cluster"
+    url: "https://kubernetes.default.svc"
+
+# Datadog Agent Values
+datadogAgent:
+  enable: true
+  apiKeyExistingSecret: "datadog-api-key"
+  site: "datadoghq.com"
+  namespace: "datadog"
+
+# External Secrets Operator
+externalSecrets:
+  enable: true
+  namespace: "external-secrets"
+  serviceAccountName: "external-secrets-sa"
+  serviceAccountNamespace: "external-secrets"
+  clientId: "864e12a4-0c66-4578-9ccf-3480978720a4"
+  tenantId: "fd41ee0d-0d97-4102-9a50-c7c3c5470454"
+  keyVaultUrl: "https://kv-tech-mobile-dev-01.vault.azure.net/"
+  secrets:
+  - name: "test-secret"
+
+# Cluster Autoscaler Values
+clusterAutoscaler:
+  enable: false
+  serviceAccountName:
+  namespace: "cluster-autoscaler"
+
+# nginx Values
+ingressNginx:
+  enable: false  
+  namespace: "ingress-nginx"
+  repoURL: "https://kubernetes.github.io/ingress-nginx"
+  appVersion: 1.0
+  controller:
+    service:
+      targetPorts:
+        http: 80
+
+wiz:
+  enable: false
+  namespace: "wiz"
+  targetRevision: 0.2.37
+
+# Metrics Server Values
+metricsServer:
+  enable: false
+  targetRevision: 3.8.2
+  namespace: "kube-system"

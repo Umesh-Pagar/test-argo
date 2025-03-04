@@ -1,0 +1,51 @@
+{{- if and (.Values.clusterAutoscaler) (.Values.clusterAutoscaler.enable) -}}
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-autoscaler-apps-{{ .Values.env }}
+  namespace: {{ .Values.namespace }}
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - list:
+      elements:
+      {{- range .Values.clusters }}
+      - cluster: {{ .name }}
+        url: {{ .url }}
+      {{- end }} 
+  template:
+    metadata:
+      name: '{{`{{.cluster}}`}}-cluster-autoscaler'
+    spec:
+      project: default
+      source:
+        repoURL: {{ .Values.repoUrl }}
+        path: cluster-addons/add-ons/cluster-autoscaler
+        targetRevision: {{ .Values.targetRevision }}
+        helm:
+          values: |
+            cluster-autoscaler:
+            {{- toYaml .Values.clusterAutoscaler | nindent 14 }}
+          parameters:
+          - name: cluster-autoscaler.awsRegion
+            value: {{ .Values.region }}
+          - name: cluster-autoscaler.rbac.serviceAccount.name
+            value: {{ .Values.clusterAutoscaler.serviceAccountName }}
+          - name: cluster-autoscaler.autoDiscovery.clusterName
+            value: '{{`{{.cluster}}`}}'
+      destination:
+        server: '{{`{{.url}}`}}'
+        namespace: {{ .Values.clusterAutoscaler.namespace }}
+      syncPolicy:
+        automated:
+          prune: true
+        syncOptions:
+        - CreateNamespace=true
+        retry:
+          limit: 1
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 1m
+{{- end -}}

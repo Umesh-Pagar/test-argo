@@ -1,0 +1,48 @@
+{{- if and (.Values.ingressNginx) (.Values.ingressNginx.enable) -}}
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: ingress-nginx-{{ .Values.env }}
+  namespace: {{ .Values.namespace }}
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - list:
+      elements:
+      {{- range .Values.clusters }}
+      - cluster: {{ .name }}
+        url: {{ .url }}
+      {{- end }} 
+  template:
+    metadata:
+      name: '{{`{{.cluster}}`}}-ingress-nginx'
+    spec:
+      project: default
+      ports:
+        appProtocol: https
+        port: 443
+        targetPort: 80
+      source:
+        repoURL: {{ .Values.repoUrl }}
+        path: cluster-addons/add-ons/ingress-nginx
+        targetRevision: {{ .Values.targetRevision }}
+        helm:
+          values: |
+            ingress-nginx:
+            {{- toYaml .Values.ingressNginx | nindent 14 }}
+      destination:
+        server: '{{`{{.url}}`}}'
+        namespace: {{ .Values.ingressNginx.namespace }}
+      syncPolicy:
+        automated:
+          prune: true
+        syncOptions:
+        - CreateNamespace=true
+        retry:
+          limit: 1
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 1m
+{{- end -}}
