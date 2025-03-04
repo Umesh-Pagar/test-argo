@@ -30,7 +30,7 @@ spec:
             clientId: {{ $.Values.externalSecrets.clientId }}
             tenantId: {{ $.Values.externalSecrets.tenantId }}
             keyVaultUrl: {{ $.Values.externalSecrets.keyVaultUrl }}
-            secrets: {{ $.Values.externalSecrets.secrets }}
+            secrets: {{ toJson $.Values.externalSecrets.secrets }}
       destination:
         server: '{{`{{.url}}`}}'
         namespace: {{ $.Values.externalSecrets.namespace }}
