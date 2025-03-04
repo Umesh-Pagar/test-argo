@@ -1,0 +1,42 @@
+{{- if and (.Values.metricsServer) (.Values.metricsServer.enable) -}}
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: metrics-server-apps-{{ .Values.env }}
+  namespace: {{ .Values.namespace }}
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - list:
+      elements:
+      {{- range .Values.clusters }}
+      - cluster: {{ .name }}
+        url: {{ .url }}
+      {{- end }} 
+  template:
+    metadata:
+      name: '{{`{{.cluster}}`}}-metrics-server'
+    spec:
+      project: default
+      source:
+        repoURL: {{ .Values.repoUrl }}
+        path: cluster-addons/add-ons/metrics-server
+        targetRevision: {{ .Values.targetRevision }}
+        helm:
+          values: |
+            metrics-server:
+            {{- toYaml .Values.metricsServer | nindent 14 }}
+      destination:
+        server: '{{`{{.url}}`}}'
+        namespace: {{ .Values.metricsServer.namespace }}
+      syncPolicy:
+        automated:
+          prune: true
+        retry:
+          limit: 1
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 1m
+{{- end -}}

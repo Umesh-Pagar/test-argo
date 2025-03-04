@@ -1,5 +1,5 @@
 # Global Values
-repoUrl: "git@bitbucket.org:watscoenterprise/eks-apps-cluster-config.git"
+repoUrl: "https://github.com/Umesh-Pagar/test-argo.git"
 targetRevision: HEAD
 region: ""
 account: ""
@@ -8,7 +8,7 @@ namespace: "argocd"
 clusters:
   - name: "in-cluster"
     url: "https://kubernetes.default.svc"
-
+    
 # Datadog Agent Values
 datadogAgent:
   enable: true
@@ -22,15 +22,17 @@ externalSecrets:
   namespace: "external-secrets"
   serviceAccountName: "external-secrets-sa"
   serviceAccountNamespace: "external-secrets"
-  clientId: "28fc9472-a868-41f5-8e8f-8852eb42ee9d"
-  tenantId: "23e3a31f-e59d-4012-89a8-5e58b8eef10e"
-  keyVaultUrl: "https://kv-tech-mobile-dev-01.vault.azure.net/"
+  roleArn: "arn:aws:iam::891377055235:role/external-secrets-role"
+  region: "us-east-1"
+  # clientId: "28fc9472-a868-41f5-8e8f-8852eb42ee9d"
+  # tenantId: "23e3a31f-e59d-4012-89a8-5e58b8eef10e"
+  # keyVaultUrl: "https://kv-tech-mobile-dev-01.vault.azure.net/"
   secrets:
-  - name: "datadog-api-key"
+  - name: "test-secret"
 
 # Cluster Autoscaler Values
 clusterAutoscaler:
-  enable: true
+  enable: false
   serviceAccountName:
   namespace: "cluster-autoscaler"
 
@@ -45,13 +47,8 @@ ingressNginx:
       targetPorts:
         http: 80
 
-wiz:
-  enable: false
-  namespace: "wiz"
-  targetRevision: 0.2.37
-
 # Metrics Server Values
 metricsServer:
-  enable: true
+  enable: false
   targetRevision: 3.8.2
   namespace: "kube-system"

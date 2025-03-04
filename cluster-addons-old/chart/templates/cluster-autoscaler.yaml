@@ -1,11 +1,9 @@
-{{- if and (.Values.datadogAgent) (.Values.datadogAgent.enable) -}}
+{{- if and (.Values.clusterAutoscaler) (.Values.clusterAutoscaler.enable) -}}
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: datadog-agent-{{ .Values.env }}
+  name: cluster-autoscaler-apps-{{ .Values.env }}
   namespace: {{ .Values.namespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
@@ -15,27 +13,30 @@ spec:
       {{- range .Values.clusters }}
       - cluster: {{ .name }}
         url: {{ .url }}
-      {{- end }}
+      {{- end }} 
   template:
     metadata:
-      name: '{{`{{.cluster}}`}}-datadog'
+      name: '{{`{{.cluster}}`}}-cluster-autoscaler'
     spec:
-      project: "default"
+      project: default
       source:
         repoURL: {{ .Values.repoUrl }}
-        path: cluster-addons/add-ons/datadog-agent
+        path: cluster-addons/add-ons/cluster-autoscaler
         targetRevision: {{ .Values.targetRevision }}
         helm:
+          values: |
+            cluster-autoscaler:
+            {{- toYaml .Values.clusterAutoscaler | nindent 14 }}
           parameters:
-            - name: "datadog.apiKeyExistingSecret"
-              value: {{ .Values.datadogAgent.apiKeyExistingSecret }}
-            - name: "datadog.site"
-              value: {{ .Values.datadogAgent.site }}
-            - name: "datadog.clusterName"
-              value: '{{`{{.cluster}}`}}'
+          - name: cluster-autoscaler.awsRegion
+            value: {{ .Values.region }}
+          - name: cluster-autoscaler.rbac.serviceAccount.name
+            value: {{ .Values.clusterAutoscaler.serviceAccountName }}
+          - name: cluster-autoscaler.autoDiscovery.clusterName
+            value: '{{`{{.cluster}}`}}'
       destination:
         server: '{{`{{.url}}`}}'
-        namespace: {{ .Values.datadogAgent.namespace }}
+        namespace: {{ .Values.clusterAutoscaler.namespace }}
       syncPolicy:
         automated:
           prune: true

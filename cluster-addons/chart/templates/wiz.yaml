@@ -1,0 +1,64 @@
+{{- if and (.Values.wiz) (.Values.wiz.enable) -}}
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: wiz-kubernetes-integration-{{ .Values.env }}
+  namespace: {{ .Values.namespace }}
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - list:
+      elements:
+      {{- range .Values.clusters }}
+      - cluster: {{ .name }}
+        url: {{ .url }}
+      {{- end }} 
+  template:
+    metadata:
+      name: '{{`{{.cluster}}`}}-wiz-kubernetes-integration'
+    spec:  
+      project: default  # Replace with your Argo CD project name  
+      source:
+        path: cluster-addons/add-ons/wiz 
+        repoURL: {{ .Values.repoUrl }}  # The Git repository URL
+        targetRevision: {{ .Values.targetRevision }}  # Replace with the desired chart version
+        helm:
+          values: |
+            global:
+              wizApiToken:
+                secret:
+                  create: false # We create it manually
+                  name: "wiz-api-token"
+
+            wiz-kubernetes-connector:
+              enabled: true
+              broker:
+                enabled: true
+
+            wiz-sensor:
+              enabled: true
+              imagePullSecret:
+                create: false # We create it manually
+                name: "sensor-image-pull"
+
+            wiz-admission-controller:
+              enabled: false
+
+              kubernetesAuditLogsWebhook:
+                enabled: false
+      destination:
+        namespace: {{ .Values.wiz.namespace }}  # Replace with your desired namespace
+        server: '{{`{{.url}}`}}'
+      syncPolicy:
+        automated:
+          prune: true
+        syncOptions:
+        - CreateNamespace=true
+        retry:
+          limit: 1
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 1m
+{{- end -}}
