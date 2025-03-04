@@ -4,8 +4,6 @@ kind: ApplicationSet
 metadata:
   name: datadog-agent-{{ .Values.env }}
   namespace: {{ .Values.namespace }}
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
