@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: external-secrets-apps-{{ .Values.env }}
+  name: eso-config-{{ .Values.env }}
   namespace: {{ .Values.namespace }}
 spec:
   goTemplate: true
@@ -16,29 +16,31 @@ spec:
       {{- end }} 
   template:
     metadata:
-      name: '{{`{{.cluster}}`}}-external-secrets'
+      name: '{{`{{.cluster}}`}}-eso-config'
     spec:
       project: default
       source:
         repoURL: {{ .Values.repoUrl }}
-        path: cluster-addons/add-ons/external-secrets
+        path: cluster-addons/add-ons/eso-config
         targetRevision: {{ .Values.targetRevision }}
         helm:
           values: |
-            external-secrets:
-            {{- toYaml .Values.externalSecrets | nindent 14 }}
+            name: {{ $.Values.externalSecrets.serviceAccountName }}
+            namespace: {{ $.Values.externalSecrets.serviceAccountNamespace }}
+            clientId: {{ $.Values.externalSecrets.clientId }}
+            tenantId: {{ $.Values.externalSecrets.tenantId }}
+            keyVaultUrl: {{ $.Values.externalSecrets.keyVaultUrl }}
+            secrets: {{ toJson $.Values.externalSecrets.secrets }}
       destination:
         server: '{{`{{.url}}`}}'
-        namespace: {{ .Values.externalSecrets.namespace }}
+        namespace: {{ $.Values.externalSecrets.namespace }}
       syncPolicy:
         automated:
           prune: true
-        syncOptions:
-        - CreateNamespace=true
-        retry:
-          limit: 1
-          backoff:
-            duration: 5s
-            factor: 2
-            maxDuration: 1m
+      retry:
+        limit: 1
+        backoff:
+          duration: 5s
+          factor: 2
+          maxDuration: 1m
 {{- end -}}
