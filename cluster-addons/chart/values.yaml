@@ -6,7 +6,7 @@ account: ""
 env: "dev"
 namespace: "argocd"
 clusters:
-  - name: "in-cluster"
+  - name: "aks"
     url: "https://tech-mobile-test-byirxowd.hcp.eastus.azmk8s.io:443"
 
 # Datadog Agent Values
