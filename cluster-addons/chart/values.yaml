@@ -7,7 +7,7 @@ env: "dev"
 namespace: "argocd"
 clusters:
   - name: "in-cluster"
-    url: "https://kubernetes.default.svc"
+    url: "https://tech-mobile-test-byirxowd.hcp.eastus.azmk8s.io:443"
 
 # Datadog Agent Values
 datadogAgent:
@@ -20,13 +20,13 @@ datadogAgent:
 externalSecrets:
   enable: true
   namespace: "external-secrets"
-  serviceAccountName: "external-secrets-sa"
-  serviceAccountNamespace: "external-secrets"
-  clientId: "864e12a4-0c66-4578-9ccf-3480978720a4"
-  tenantId: "fd41ee0d-0d97-4102-9a50-c7c3c5470454"
-  keyVaultUrl: "https://kv-tech-mobile-dev-01.vault.azure.net/"
-  secrets:
-  - name: "test-secret"
+  # serviceAccountName: "external-secrets-sa"
+  # serviceAccountNamespace: "external-secrets"
+  # clientId: "864e12a4-0c66-4578-9ccf-3480978720a4"
+  # tenantId: "fd41ee0d-0d97-4102-9a50-c7c3c5470454"
+  # keyVaultUrl: "https://kv-tech-mobile-dev-01.vault.azure.net/"
+  # secrets:
+  # - name: "test-secret"
 
 # Cluster Autoscaler Values
 clusterAutoscaler:
