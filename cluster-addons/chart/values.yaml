@@ -6,6 +6,8 @@ account: ""
 env: "dev"
 namespace: "argocd"
 clusters:
+  - name: "eks"
+    url: "https://kubernetes.default.svc"
   - name: "aks"
     url: "https://tech-mobile-test-byirxowd.hcp.eastus.azmk8s.io:443"
 
