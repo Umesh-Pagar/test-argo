@@ -12,7 +12,7 @@ clusters:
 # Datadog Agent Values
 datadogAgent:
   enable: true
-  apiKeyExistingSecret: "datadog-api-key"
+  apiKeyExistingSecret: "datadog-secret"
   site: "datadoghq.com"
   namespace: "datadog"
 
