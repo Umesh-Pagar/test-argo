@@ -33,8 +33,7 @@ externalSecrets:
     keyVaultUrl: "https://kv-tech-mobile-test.vault.azure.net/"
   # AWS Configuration
   aws:
-    accountId: "123456789012"
-    roleArn: "arn:aws:iam::123456789012:role/external-secrets-eks"
+    roleArn: "arn:aws:iam::070818680311:role/external-secrets-role"
     region: "us-east-1"
   secrets:
   - name: "test-secret"

@@ -34,7 +34,6 @@ spec:
               tenantId: {{ $.Values.externalSecrets.azure.tenantId }}
               keyVaultUrl: {{ $.Values.externalSecrets.azure.keyVaultUrl }}
             aws:
-              accountId: {{ $.Values.externalSecrets.aws.accountId }}
               roleArn: {{ $.Values.externalSecrets.aws.roleArn }}
               region: {{ $.Values.externalSecrets.aws.region }}
       destination:
