@@ -28,9 +28,9 @@ externalSecrets:
   serviceAccountNamespace: "external-secrets"
   # Azure Configuration
   azure:
-    clientId: "864e12a4-0c66-4578-9ccf-3480978720a4"
-    tenantId: "fd41ee0d-0d97-4102-9a50-c7c3c5470454"
-    keyVaultUrl: "https://kv-tech-mobile-dev-01.vault.azure.net/"
+    clientId: "8984d07c-376b-445f-95d9-5f0cbb5662db"
+    tenantId: "45d0c08e-3ba6-4272-9547-d08be59f03fc"
+    keyVaultUrl: "https://kv-tech-mobile-test.vault.azure.net/"
   # AWS Configuration
   aws:
     accountId: "123456789012"
