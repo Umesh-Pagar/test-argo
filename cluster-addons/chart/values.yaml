@@ -39,10 +39,18 @@ esoConfig:
     roleArn: "arn:aws:iam::070818680311:role/eso-role"
     region: "us-east-1"
   secrets:
-  - name: "datadog/api-key"
-    key: "api-key"
-  - name: "wiz/api-token"
+  - name: "datadog-secret"  # Kubernetes secret name
+    namespace: "datadog"
+    key: "api-key"          # Key in the secret
+    remoteRef:
+      aws: "datadog/api-key"
+      azure: "datadog-api-key"
+  - name: "wiz-secret"
+    namespace: "wiz"
     key: "api-token"
+    remoteRef:
+      aws: "wiz/api-token"
+      azure: "wiz-api-token"
 
 # Cluster Autoscaler Values
 clusterAutoscaler:
