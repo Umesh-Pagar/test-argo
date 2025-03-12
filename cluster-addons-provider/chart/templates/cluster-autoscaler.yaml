@@ -24,7 +24,6 @@ spec:
         targetRevision: {{ .Values.targetRevision }}
         helm:
           values: |
-            provider: '{{`{{.provider}}`}}'
             cluster-autoscaler:
             {{- toYaml .Values.clusterAutoscaler | nindent 14 }}
           parameters:

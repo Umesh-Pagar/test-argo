@@ -1,0 +1,45 @@
+{{- if and (.Values.esoConfig) (.Values.esoConfig.enable) -}}
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: eso-config-{{ .Values.env }}
+  namespace: {{ .Values.namespace }}
+spec:
+  goTemplate: true
+  generators:
+  - list:
+      elements:
+      {{- range .Values.clusters }}
+      - cluster: {{ .name }}
+        url: {{ .url }}
+        provider: {{ .provider }}
+      {{- end }} 
+  template:
+    metadata:
+      name: '{{`{{.cluster}}`}}-eso-config'
+    spec:
+      project: default
+      source:
+        repoURL: {{ .Values.repoUrl }}
+        path: cluster-addons/add-ons/eso-config
+        targetRevision: {{ .Values.targetRevision }}
+        helm:
+          values: |
+            provider: '{{`{{.provider}}`}}'
+            serviceAccountName: {{ $.Values.esoConfig.serviceAccountName }}
+            serviceAccountNamespace: {{ $.Values.esoConfig.serviceAccountNamespace }}
+            azure:
+              authType: "WorkloadIdentity"
+              clientId: {{ $.Values.esoConfig.azure.clientId }}
+              tenantId: {{ $.Values.esoConfig.azure.tenantId }}
+              keyVaultUrl: {{ $.Values.esoConfig.azure.keyVaultUrl }}
+            aws:
+              roleArn: {{ $.Values.esoConfig.aws.roleArn }}
+              region: {{ $.Values.esoConfig.aws.region }}
+      destination:
+        server: '{{`{{.url}}`}}'
+        namespace: {{ $.Values.esoConfig.namespace }}
+      syncPolicy:
+        automated:
+          prune: true
+{{- end -}}
