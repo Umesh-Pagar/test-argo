@@ -49,7 +49,7 @@ esoConfig:
     namespace: "wiz"
     key: "api-token"
     remoteRef:
-      aws: "wiz/api-token"
+      aws: "wiz/api-token-test"
       azure: "wiz-api-token"
 
 # Cluster Autoscaler Values
