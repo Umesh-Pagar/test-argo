@@ -17,8 +17,6 @@ spec:
   template:
     metadata:
       name: '{{`{{.cluster}}`}}-datadog'
-      annotations:
-        argocd.argoproj.io/sync-wave: "1"
     spec:
       project: "default"
       source:
