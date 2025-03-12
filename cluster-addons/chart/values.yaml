@@ -10,7 +10,7 @@ clusters:
     url: "https://kubernetes.default.svc"
     provider: "aws"
   - name: "aks"
-    url: "https://tech-mobile-test-byirxowd.hcp.eastus.azmk8s.io:443"
+    url: "https://tech-mobile-test-6qrrd9km.hcp.eastus.azmk8s.io:443"
     provider: "azure"
 
 # Datadog Agent Values
