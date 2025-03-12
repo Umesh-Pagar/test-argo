@@ -28,7 +28,6 @@ spec:
             provider: '{{`{{.provider}}`}}'
             serviceAccountName: {{ $.Values.esoConfig.serviceAccountName }}
             serviceAccountNamespace: {{ $.Values.esoConfig.serviceAccountNamespace }}
-            secrets: {{ toJson $.Values.esoConfig.secrets }}
             azure:
               authType: "WorkloadIdentity"
               clientId: {{ $.Values.esoConfig.azure.clientId }}
