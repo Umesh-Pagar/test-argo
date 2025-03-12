@@ -1,4 +1,4 @@
-{{- if and (.Values.externalSecrets) (.Values.externalSecrets.enable) -}}
+{{- if and (.Values.esoConfig) (.Values.esoConfig.enable) -}}
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -26,19 +26,19 @@ spec:
         helm:
           values: |
             provider: '{{`{{.provider}}`}}'
-            serviceAccountName: {{ $.Values.externalSecrets.serviceAccountName }}
-            serviceAccountNamespace: {{ $.Values.externalSecrets.serviceAccountNamespace }}
+            serviceAccountName: {{ $.Values.esoConfig.serviceAccountName }}
+            serviceAccountNamespace: {{ $.Values.esoConfig.serviceAccountNamespace }}
             azure:
               authType: "WorkloadIdentity"
-              clientId: {{ $.Values.externalSecrets.azure.clientId }}
-              tenantId: {{ $.Values.externalSecrets.azure.tenantId }}
-              keyVaultUrl: {{ $.Values.externalSecrets.azure.keyVaultUrl }}
+              clientId: {{ $.Values.esoConfig.azure.clientId }}
+              tenantId: {{ $.Values.esoConfig.azure.tenantId }}
+              keyVaultUrl: {{ $.Values.esoConfig.azure.keyVaultUrl }}
             aws:
-              roleArn: {{ $.Values.externalSecrets.aws.roleArn }}
-              region: {{ $.Values.externalSecrets.aws.region }}
+              roleArn: {{ $.Values.esoConfig.aws.roleArn }}
+              region: {{ $.Values.esoConfig.aws.region }}
       destination:
         server: '{{`{{.url}}`}}'
-        namespace: {{ $.Values.externalSecrets.namespace }}
+        namespace: {{ $.Values.esoConfig.namespace }}
       syncPolicy:
         automated:
           prune: true

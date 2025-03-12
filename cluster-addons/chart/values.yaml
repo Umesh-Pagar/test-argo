@@ -24,6 +24,9 @@ datadogAgent:
 externalSecrets:
   enable: true
   namespace: "external-secrets"
+
+esoConfig:
+  enable: true
   serviceAccountName: "external-secrets-sa"
   serviceAccountNamespace: "external-secrets"
   # Azure Configuration
