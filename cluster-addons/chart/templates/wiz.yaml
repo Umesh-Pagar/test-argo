@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: wiz-kubernetes-integration-{{ .Values.env }}
+  name: wiz-agent-{{ .Values.env }}
   namespace: {{ .Values.namespace }}
 spec:
   goTemplate: true
@@ -16,11 +16,11 @@ spec:
       {{- end }} 
   template:
     metadata:
-      name: '{{`{{.cluster}}`}}-wiz-kubernetes-integration'
+      name: '{{`{{.cluster}}`}}-wiz-agent'
     spec:  
       project: default  # Replace with your Argo CD project name  
       source:
-        path: cluster-addons/add-ons/wiz 
+        path: cluster-addons/add-ons/wiz-agent 
         repoURL: {{ .Values.repoUrl }}  # The Git repository URL
         targetRevision: {{ .Values.targetRevision }}  # Replace with the desired chart version
         helm:
