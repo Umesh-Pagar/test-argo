@@ -46,13 +46,13 @@ esoConfig:
 
 # Cluster Autoscaler Values
 clusterAutoscaler:
-  enable: true
+  enable: false
   serviceAccountName:
   namespace: "cluster-autoscaler"
 
 # nginx Values
 ingressNginx:
-  enable: true  
+  enable: false  
   namespace: "ingress-nginx"
   repoURL: "https://kubernetes.github.io/ingress-nginx"
   appVersion: 1.0
@@ -68,6 +68,6 @@ wiz:
 
 # Metrics Server Values
 metricsServer:
-  enable: true
+  enable: false
   targetRevision: 3.8.2
   namespace: "kube-system"
