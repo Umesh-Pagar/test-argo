@@ -39,7 +39,10 @@ esoConfig:
     roleArn: "arn:aws:iam::070818680311:role/eso-role"
     region: "us-east-1"
   secrets:
-  - name: "test-secret"
+  - name: "datadog/api-key"
+    key: "api-key"
+  - name: "wiz/api-token"
+    key: "api-token"
 
 # Cluster Autoscaler Values
 clusterAutoscaler:
