@@ -70,7 +70,7 @@ ingressNginx:
         http: 80
 
 wiz:
-  enable: false
+  enable: true
   namespace: "wiz"
   targetRevision: 0.2.37
 
