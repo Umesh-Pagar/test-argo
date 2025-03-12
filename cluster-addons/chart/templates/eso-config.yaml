@@ -25,7 +25,7 @@ spec:
         targetRevision: {{ .Values.targetRevision }}
         helm:
           values: |
-            provider: '{{`{{provider}}`}}'
+            provider: '{{`{{.provider}}`}}'
             name: {{ $.Values.externalSecrets.serviceAccountName }}
             namespace: {{ $.Values.externalSecrets.serviceAccountNamespace }}
             azure:
