@@ -29,6 +29,7 @@ spec:
             serviceAccountName: {{ $.Values.externalSecrets.serviceAccountName }}
             serviceAccountNamespace: {{ $.Values.externalSecrets.serviceAccountNamespace }}
             azure:
+              authType: "WorkloadIdentity"
               clientId: {{ $.Values.externalSecrets.azure.clientId }}
               tenantId: {{ $.Values.externalSecrets.azure.tenantId }}
               keyVaultUrl: {{ $.Values.externalSecrets.azure.keyVaultUrl }}
