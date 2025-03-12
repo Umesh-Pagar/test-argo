@@ -26,8 +26,8 @@ spec:
         helm:
           values: |
             provider: '{{`{{.provider}}`}}'
-            name: {{ $.Values.externalSecrets.serviceAccountName }}
-            namespace: {{ $.Values.externalSecrets.serviceAccountNamespace }}
+            serviceAccountName: {{ $.Values.externalSecrets.serviceAccountName }}
+            serviceAccountNamespace: {{ $.Values.externalSecrets.serviceAccountNamespace }}
             azure:
               clientId: {{ $.Values.externalSecrets.azure.clientId }}
               tenantId: {{ $.Values.externalSecrets.azure.tenantId }}
