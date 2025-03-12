@@ -12,6 +12,7 @@ spec:
       {{- range .Values.clusters }}
       - cluster: {{ .name }}
         url: {{ .url }}
+        provider: {{ .provider }}
       {{- end }} 
   template:
     metadata:
@@ -28,6 +29,7 @@ spec:
         targetRevision: {{ .Values.targetRevision }}
         helm:
           values: |
+            provider: '{{`{{.provider}}`}}'
             ingress-nginx:
             {{- toYaml .Values.ingressNginx | nindent 14 }}
       destination:

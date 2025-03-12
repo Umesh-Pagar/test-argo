@@ -12,6 +12,7 @@ spec:
       {{- range .Values.clusters }}
       - cluster: {{ .name }}
         url: {{ .url }}
+        provider: {{ .provider }}
       {{- end }} 
   template:
     metadata:
@@ -24,6 +25,7 @@ spec:
         targetRevision: {{ .Values.targetRevision }}
         helm:
           values: |
+            provider: '{{`{{.provider}}`}}'
             metrics-server:
             {{- toYaml .Values.metricsServer | nindent 14 }}
       destination:

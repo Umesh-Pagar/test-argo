@@ -12,6 +12,7 @@ spec:
       {{- range .Values.clusters }}
       - cluster: {{ .name }}
         url: {{ .url }}
+        provider: {{ .provider }}
       {{- end }}
   template:
     metadata:
@@ -23,6 +24,8 @@ spec:
         path: cluster-addons/add-ons/datadog-agent
         targetRevision: {{ .Values.targetRevision }}
         helm:
+          values: |
+            provider: '{{`{{.provider}}`}}'
           parameters:
             - name: "datadog.apiKeyExistingSecret"
               value: {{ .Values.datadogAgent.apiKeyExistingSecret }}

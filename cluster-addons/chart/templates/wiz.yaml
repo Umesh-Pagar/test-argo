@@ -12,6 +12,7 @@ spec:
       {{- range .Values.clusters }}
       - cluster: {{ .name }}
         url: {{ .url }}
+        provider: {{ .provider }}
       {{- end }} 
   template:
     metadata:
@@ -24,6 +25,7 @@ spec:
         targetRevision: {{ .Values.targetRevision }}  # Replace with the desired chart version
         helm:
           values: |
+            provider: '{{`{{.provider}}`}}'
             global:
               wizApiToken:
                 secret:
